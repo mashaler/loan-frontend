@@ -1,18 +1,23 @@
-import axios from "axios";
+export const applyForLoan = async (data: { amount: string; term: string }) => {
+  try {
+    const response = await fetch("http://localhost:5020/api/loan", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: "John Doe", // Replace with actual user input if needed
+        amount: parseInt(data.amount, 10), // Ensure number type
+        duration: parseInt(data.term, 10), // Change "term" to "duration"
+        loan: "personal",  // Default value or replace with user input
+      }),
+    });
 
-const API_URL = "/api/loan"; // Since we set up a proxy, no need for full URL
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Failed to apply for loan.");
+    }
 
-export const applyForLoan = async (loanData: any) => {
-    const response = await axios.post(API_URL, loanData);
-    return response.data;
-};
-
-export const getLoans = async () => {
-    const response = await axios.get(API_URL);
-    return response.data;
-};
-
-export const updateLoanStatus = async (id: number, status: string) => {
-    const response = await axios.put(`${API_URL}/${id}`, { status });
-    return response.data;
+    return await response.json();
+  } catch (error: any) {
+    return { message: error.message || "Error applying for loan." };
+  }
 };

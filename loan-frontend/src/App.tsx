@@ -1,13 +1,17 @@
 import React from "react";
-import LoanForm from "./components/LoanForm";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Home from "./pages/Home";
+import ApplyLoan from "./pages/ApplyLoan";
 
-function App() {
-    return (
-        <div>
-            <h1>Loan Application</h1>
-            <LoanForm />
-        </div>
-    );
-}
+const App: React.FC = () => {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/apply" element={<ApplyLoan />} />
+      </Routes>
+    </Router>
+  );
+};
 
 export default App;
